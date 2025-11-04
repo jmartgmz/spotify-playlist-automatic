@@ -10,6 +10,10 @@ Usage:
     python check.py --manual-link
 """
 
+import warnings
+warnings.simplefilter('ignore')
+warnings.filterwarnings('ignore')
+
 import os
 import argparse
 import sys

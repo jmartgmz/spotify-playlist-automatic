@@ -8,6 +8,10 @@ Usage:
     python watch.py  # Uses defaults: downloaded_songs folder, 10-minute intervals
 """
 
+import warnings
+warnings.simplefilter('ignore')
+warnings.filterwarnings('ignore')
+
 import os
 import time
 import argparse
