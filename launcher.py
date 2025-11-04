@@ -1,9 +1,24 @@
 #!/usr/bin/env python3
 
 import warnings
+import logging
 
 # Suppress deprecation warnings from pkg_resources (used by spotdl)
 warnings.filterwarnings('ignore', category=UserWarning, message='.*pkg_resources is deprecated.*')
+warnings.filterwarnings('ignore')  # Suppress all warnings
+
+# Set up logging to only show errors and critical messages
+logging.basicConfig(
+    level=logging.CRITICAL,
+    format='%(message)s'
+)
+
+# Suppress verbose logging from dependencies
+logging.getLogger('spotdl').setLevel(logging.CRITICAL)
+logging.getLogger('yt_dlp').setLevel(logging.CRITICAL)
+logging.getLogger('spotipy').setLevel(logging.CRITICAL)
+logging.getLogger('urllib3').setLevel(logging.CRITICAL)
+logging.getLogger('requests').setLevel(logging.CRITICAL)
 
 import os
 import subprocess

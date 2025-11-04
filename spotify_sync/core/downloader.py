@@ -56,7 +56,7 @@ class SpotdlDownloader:
             if dont_filter:
                 cmd.append('--dont-filter-results')
             
-            result = subprocess.run(cmd, capture_output=True, text=True, check=True)
+            result = subprocess.run(cmd, capture_output=True, text=True, check=True, stderr=subprocess.DEVNULL)
             youtube_url = result.stdout.strip()
             return youtube_url if youtube_url else None
         except Exception as e:
@@ -84,6 +84,8 @@ class SpotdlDownloader:
             temp_file = os.path.join(download_folder, '%(title)s.%(ext)s')
             yt_dlp_cmd = [
                 'yt-dlp',
+                '-q',  # Quiet mode
+                '--no-warnings',  # No warnings
                 '-x',  # Extract audio only
                 '--audio-format', 'mp3',
                 '--audio-quality', '192',
@@ -91,7 +93,7 @@ class SpotdlDownloader:
                 youtube_url
             ]
             
-            result = subprocess.run(yt_dlp_cmd, capture_output=True, text=True)
+            result = subprocess.run(yt_dlp_cmd, capture_output=True, text=True, stderr=subprocess.DEVNULL)
             if result.returncode != 0:
                 print(f"✗ Failed to download from YouTube: {result.stderr}")
                 return False
