@@ -12,13 +12,12 @@ if not exist "launcher.spec" (
     exit /b 1
 )
 
-REM Activate virtual environment (skip in CI/CD)
+REM Activate virtual environment (skip in CI/CD when SKIP_VENV=true)
+cd ..
 if "%SKIP_VENV%"=="true" (
     echo 🔌 Skipping virtual environment (CI/CD mode)
-    cd ..
 ) else (
     echo 🔌 Activating virtual environment...
-    cd ..
     if exist ".venv" (
         call .venv\Scripts\activate
         echo ✅ Virtual environment activated
