@@ -1,10 +1,16 @@
 #!/usr/bin/env python3
 
+import warnings
+
+# Suppress deprecation warnings from pkg_resources (used by spotdl)
+warnings.filterwarnings('ignore', category=UserWarning, message='.*pkg_resources is deprecated.*')
+
 import os
 import subprocess
 import sys
 import importlib
 import importlib.util
+import shlex
 
 def is_frozen():
     """Check if running as a PyInstaller executable."""
@@ -224,7 +230,14 @@ def check_setup():
 
 def run_command(cmd):
     """Execute a command using the spotify_sync package."""
-    parts = cmd.split()
+    # Use shlex to properly handle quoted paths with spaces
+    try:
+        parts = shlex.split(cmd)
+    except ValueError as e:
+        print(f"Error parsing command: {e}")
+        print("Make sure paths with spaces are quoted: sync --download-folder \"C:\\Users\\Jason Martinez\\Music\"")
+        return
+    
     if not parts:
         return
     
